@@ -29,15 +29,22 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "100m"
+        
+        # --- LIVENESS PROBE MEJORADO ---
         livenessProbe:
           httpGet:
-            path: /
+            path: /healthz/live
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
+          timeoutSeconds: 2       # Tiempo máximo para la respuesta
+          failureThreshold: 5     # Número de fallos antes de reiniciar
+          
+        # --- READINESS PROBE MEJORADO ---
         readinessProbe:
           httpGet:
-            path: /
+            path: /healthz/ready
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
+          timeoutSeconds: 2       # Tiempo máximo para la respuesta
